@@ -1,11 +1,14 @@
-# То же самое, что и в серверном Dockerfile.
+FROM node:alpine
 
-FROM python:latest
+WORKDIR /usr/src/app
 
-# Импортируем 'client.py' в папку '/client/'.
+COPY package.json .
+COPY package-lock.json .
 
-ADD client.py /client/
+RUN npm install
 
-# Устанавливаем в качестве рабочей директории '/client/'.
+COPY . .
 
-WORKDIR /client/
+EXPOSE 4200
+
+CMD /usr/src/app/node_modules/.bin/ng serve --host 0.0.0.0 --disableHostCheck
