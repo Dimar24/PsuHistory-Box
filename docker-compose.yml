@@ -2,24 +2,45 @@ version: "3.9"  # optional since v1.27.0
 
 services:
 
-  psuhistory.api:
-    image: application.api
-    ports: 
-      - 8090:80
+  psuhistory.web:
+    container_name: "web"
+    image: application.web
     build:
       context: .
-      dockerfile: server/PsuHistory-Back/Dockerfile
+      dockerfile: client/Dockerfile
+    ports: 
+      - "4200:4200"
     depends_on: 
-      - ms-sql-server
+      - "psuhistory.mssql.server"
+      - "psuhistory.api"
 
-    ms-sql-server:
-      image: mcr.microsoft.com/mssql/server:2017-latest-ubuntu
-      environment:
-        ACCEPT_EULA: "Y"
-        SA_PASSWORD: "Pa55w0rd2021"
-        MSSQL_PID: Express
-      ports:
-        - "1433:1433"
+  psuhistory.api:
+    container_name: "api"
+    image: application.api
+    environment:
+      DatabaseServer: "psuhistory.mssql.server"
+      DatabasePort: "1433"
+      DatabaseUser: "SA"
+      DatabasePassword: "Pa55w0rd2021"
+      DatabaseName: "psuhistorydb"
+    build:
+      context: .
+      dockerfile: server/Dockerfile
+    ports: 
+      - "6777:80"
+    restart: always
+    depends_on: 
+      - "psuhistory.mssql.server"
+
+  psuhistory.mssql.server:
+    container_name: "mssql.server"
+    image: mcr.microsoft.com/mssql/server:2017-latest-ubuntu
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "Pa55w0rd2021"
+      MSSQL_PID: Express
+    ports:
+      - "1433:1433"
   
 #  psuhistory.client:
 #    image: application.client

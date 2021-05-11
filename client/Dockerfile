@@ -1,14 +1,29 @@
-FROM node:alpine
+
+FROM node:alpine As builder
 
 WORKDIR /usr/src/app
 
-COPY package.json .
-COPY package-lock.json .
+COPY ["client/PsuHistory-Front/package*.json", "./"]
+RUN npm cache clean --force
+RUN npm i
 
-RUN npm install
-
-COPY . .
+COPY ["client/PsuHistory-Front", "./"]
 
 EXPOSE 4200
+# Serve the app
+CMD ["/usr/src/app/node_modules/.bin/ng", "serve", "--host", "0.0.0.0", "--disableHostCheck"]
 
-CMD /usr/src/app/node_modules/.bin/ng serve --host 0.0.0.0 --disableHostCheck
+#FROM node:alpine
+#
+#WORKDIR /usr/src/app
+#
+#COPY package.json .
+#COPY package-lock.json .
+#
+#RUN npm install
+#
+#COPY . .
+#
+#EXPOSE 4200
+#
+#CMD /usr/src/app/node_modules/.bin/ng serve --host 0.0.0.0 --disableHostCheck
