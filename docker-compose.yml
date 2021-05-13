@@ -18,7 +18,7 @@ services:
     container_name: "api"
     image: application.api
     environment:
-      DatabaseServer: "psuhistory.mssql.server"
+      DatabaseServer: "database"
       DatabasePort: "1433"
       DatabaseUser: "SA"
       DatabasePassword: "Pa55w0rd2021"
