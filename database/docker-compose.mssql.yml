@@ -1,0 +1,18 @@
+version: "3.9"  # optional since v1.27.0
+
+services:
+ 
+  mssql_database:
+    container_name: mssql
+    image: mcr.microsoft.com/mssql/server:2017-latest
+    environment:
+      ACCEPT_EULA: Y
+      SA_PASSWORD: Pa55w0rd2021
+    #  MSSQL_PID: Express
+    ports:
+      - "1433:1433"
+    restart: always
+ 
+#volumes:
+#  database-data:
+#  pgadmin:

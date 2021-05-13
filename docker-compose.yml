@@ -11,7 +11,7 @@ services:
     ports: 
       - "4200:4200"
     depends_on: 
-      - "psuhistory.mssql.server"
+      - "psuhistory.database"
       - "psuhistory.api"
 
   psuhistory.api:
@@ -30,80 +30,28 @@ services:
       - "6777:80"
     restart: always
     depends_on: 
-      - "psuhistory.mssql.server"
+      - "psuhistory.database"
 
-  psuhistory.mssql.server:
-    container_name: "mssql.server"
-    image: mcr.microsoft.com/mssql/server:2017-latest-ubuntu
-    environment:
-      ACCEPT_EULA: "Y"
-      SA_PASSWORD: "Pa55w0rd2021"
-      MSSQL_PID: Express
-    ports:
-      - "1433:1433"
-  
-#  psuhistory.client:
-#    image: application.client
-#    ports: 
-#      - 8080:8080
-#    build:
-#      context: .
-#      dockerfile: client/Dockerfile   
-  #server:
-  #  build:
-  #    context: .
-  #    dockerfile: server/Dockerfile
+  psuhistory.database:
+    container_name: "database"
+    extends:
+      file: database/docker-compose.mssql.yml
+      service: mssql_database
 
-#  client:     
-#    container_name: client
-#    build:
-#      context: .
-#      dockerfile: client/Dockerfile
-# 
-#  postgresql_database:
-#    container_name: postgres
-#    image: postgres:latest
-#    environment:
-#      POSTGRES_USER: admin
-#      POSTGRES_PASSWORD: admin1234
-#      POSTGRES_DB: psuhistorydb
-#    ports:
-#      - "5432:5432"
-#    restart: always
-#    volumes:
-#      - database-data:/var/lib/postgresql/data/
-#     
-#  pgadmin:
-#    container_name: pgadmin_container
-#    image: dpage/pgadmin4
-#    environment:
-#      PGADMIN_DEFAULT_EMAIL: pgadmin4@pgadmin.org
-#      PGADMIN_DEFAULT_PASSWORD: admin1234
-#    ports:
-#      - "5050:80"
-#    restart: always
-#    volumes:
-#      - pgadmin:/root/.pgadmin
-# 
-#volumes:
-#  database-data:
-#  pgadmin:
+#  psuhistory.database.postgresql:
+#    container_name: "postgresql.database"
+#    extends:
+#      file: database/docker-compose.postgresql.yml
+#      service: postgresql_database
 #
-#services:
-#  server:
-#    build:
-#    ports:
-#      - 5000:5000
-#    depends_on:
-#      - server
+#  psuhistory.database.pgadmin:
+#    container_name: "pgadmin.database"
+#    extends:
+#      file: database/docker-compose.postgresql.yml
+#      service: pgadmin
 #
-#  client:     
-#    build:
-#    ports:
-#      - 6000:6000
-#    depends_on:
-#      - server
-#    
-#  database:
-#    depends_on:
-#      - server
+#  psuhistory.database.mysql:
+#    container_name: "mysql.database"
+#    extends:
+#      file: database/docker-compose.mysql.yml
+#      service: mysql_database

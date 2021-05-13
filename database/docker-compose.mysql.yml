@@ -1,0 +1,18 @@
+version: "3.9"  # optional since v1.27.0
+
+services:
+ 
+  mysql_database:
+    container_name: mysql
+    image: mysql:8.0.25
+    environment: 
+       MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD:-root}"
+       MYSQL_USER: "${MYSQL_USER:-admin}"
+       MYSQL_PASSWORD: "${MYSQL_PASSWORD:-admin1234}"
+       MYSQL_DATABASE: "${MYSQL_DATABASE:-psuhistorydb}"
+    ports:
+      - "3307:3306"
+    restart: always
+    #volumes:
+    #  - datafiles:/var/lib/mysql
+    #  - "~/sql-scripts/setup.sql:/docker-entrypoint-initdb.d/1.sql"
