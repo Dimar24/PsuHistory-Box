@@ -2,17 +2,17 @@ version: "3.9"  # optional since v1.27.0
 
 services:
 
-  psuhistory.web:
-    container_name: "web"
-    image: application.web
-    build:
-      context: .
-      dockerfile: client/Dockerfile
-    ports: 
-      - "4200:4200"
-    depends_on: 
-      - "psuhistory.database"
-      - "psuhistory.api"
+#  psuhistory.web:
+#    container_name: "web"
+#    image: application.web
+#    build:
+#      context: .
+#      dockerfile: client/Dockerfile
+#    ports: 
+#      - "4200:4200"
+#    depends_on: 
+#      - "psuhistory.database"
+#      - "psuhistory.api"
 
   psuhistory.api:
     container_name: "api"
@@ -35,7 +35,7 @@ services:
   psuhistory.database:
     container_name: "database"
     extends:
-      file: database/docker-compose.mssql.yml
+      file: database/docker-compose.mssql.windows.yml
       service: mssql_database
 
 #  psuhistory.database.postgresql:

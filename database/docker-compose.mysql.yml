@@ -4,7 +4,7 @@ services:
  
   mysql_database:
     container_name: mysql
-    image: mysql:8.0.25
+    image: "mysql:${MYSQL_TAG}"
     environment: 
        MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD:-root}"
        MYSQL_USER: "${MYSQL_USER:-admin}"

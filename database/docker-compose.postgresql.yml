@@ -4,7 +4,7 @@ services:
  
   postgresql_database:
     container_name: postgresql
-    image: postgres:13.2
+    image: "postgres:${POSTGRESQL_TAG}"
     environment:
       POSTGRES_USER: "${POSTGRES_USER:-admin}"
       POSTGRES_PASSWORD: "${POSTGRES_PASSWORD:-admin1234}"

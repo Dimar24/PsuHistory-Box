@@ -1,17 +1,16 @@
 
-FROM node:alpine As builder
+FROM node:latest As builder
 
 WORKDIR /usr/src/app
 
 COPY ["client/PsuHistory-Front/package*.json", "./"]
-RUN npm cache clean --force
-RUN npm i
+RUN npm install
 
 COPY ["client/PsuHistory-Front", "./"]
 
 EXPOSE 4200
 # Serve the app
-CMD ["/usr/src/app/node_modules/.bin/ng", "serve", "--host", "0.0.0.0", "--disableHostCheck"]
+CMD ["npm", "run", "start"]
 
 #FROM node:alpine
 #
