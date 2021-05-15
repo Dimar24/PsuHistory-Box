@@ -9,7 +9,7 @@ services:
       ACCEPT_EULA: "${ACCEPT_EULA:-Y}"
       SA_PASSWORD: "${SA_PASSWORD:-Pa55w0rd2021}"
     ports:
-      - "1533:1433"
+      - "1433:1433"
     restart: always
  
 #volumes:

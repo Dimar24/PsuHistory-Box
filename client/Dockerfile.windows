@@ -1,16 +1,17 @@
-
-FROM node:latest As builder
+FROM node:16-alpine3.11 As builder
 
 WORKDIR /usr/src/app
 
-COPY ["client/PsuHistory-Front/package*.json", "./"]
+COPY ["client/PsuHistory-Front/package.json", "./"]
+
 RUN npm install
 
 COPY ["client/PsuHistory-Front", "./"]
 
-EXPOSE 4200
-# Serve the app
-CMD ["npm", "run", "start"]
+EXPOSE 4200 49153
+
+CMD  ["ng", "serve", "--host", "0.0.0.0", "--poll", "500"]
+
 
 #FROM node:alpine
 #

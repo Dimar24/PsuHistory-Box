@@ -5,9 +5,11 @@ EXPOSE 80
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
 COPY ["server/PsuHistory-Back/PsuHistory/PsuHistory.csproj", "PsuHistory/"]
+COPY ["server/PsuHistory-Back/PsuHistory.Resource/PsuHistory.Resource.csproj", "PsuHistory.Resource/"]
 COPY ["server/PsuHistory-Back/PsuHistory.Data.Service/PsuHistory.Data.Service.csproj", "PsuHistory.Data.Service/"]
 COPY ["server/PsuHistory-Back/PsuHistory.Data.EF.SQL/PsuHistory.Data.EF.SQL.csproj", "PsuHistory.Data.EF.SQL/"]
 COPY ["server/PsuHistory-Back/PsuHistory.Data.Domain/PsuHistory.Data.Domain.csproj", "PsuHistory.Data.Domain/"]
+COPY ["server/PsuHistory-Back/PsuHistory.Business.DTO/PsuHistory.Business.DTO.csproj", "PsuHistory.Business.DTO/"]
 COPY ["server/PsuHistory-Back/PsuHistory.Business.Service/PsuHistory.Business.Service.csproj", "PsuHistory.Business.Service/"]
 COPY ["server/PsuHistory-Back/PsuHistory.Business.Validation/PsuHistory.Business.Validation.csproj", "PsuHistory.Business.Validation/"]
 RUN dotnet restore "PsuHistory/PsuHistory.csproj"
