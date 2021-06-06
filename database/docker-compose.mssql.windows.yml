@@ -1,4 +1,4 @@
-version: "3.9"  # optional since v1.27.0
+version: "3.9"
 
 services:
  
@@ -11,7 +11,3 @@ services:
     ports:
       - "1433:1433"
     restart: always
- 
-#volumes:
-#  database-data:
-#  pgadmin:

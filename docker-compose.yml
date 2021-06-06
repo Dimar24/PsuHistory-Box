@@ -1,34 +1,27 @@
-#ПОДДОМЕН
-#l.paranovich@psu.by
-version: "3.9"  # optional since v1.27.0
+version: "3.9"
 
 services:
   psuhistory.web:
     container_name: "web"
     environment: 
-      NODE_ENV: "production"
+      Test: "Test"
     build:
       context: ${PATH_DOCKERFILE_FRONT}
       dockerfile: ${NAME_DOCKERFILE_FRONT}
     ports: 
       - "4200:80"    
     depends_on: 
-      - "psuhistory.database"
       - "psuhistory.api"
 
   psuhistory.api:
     container_name: "api"
     environment:
-      DatabaseServer: "database"
-      DatabasePort: "1433"
-      DatabaseUser: "SA"
-      DatabasePassword: "Pa55w0rd2021"
-      DatabaseName: "psuhistorydb"
+      ASPNETCORE_URLS: "http://+:6700"
     build:
       context: ${PATH_DOCKERFILE_BACK}
       dockerfile: ${NAME_DOCKERFILE_BACK}
     ports: 
-      - "6777:6777"
+      - "6700:6700"
     restart: always
     depends_on: 
       - "psuhistory.database"
