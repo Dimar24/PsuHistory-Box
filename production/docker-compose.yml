@@ -1,7 +1,7 @@
+version: "3.9"
 
 services:
   database:
-    container_name: "database"
     image: "mcr.microsoft.com/mssql/server:2019-CU10-ubuntu-16.04"
     restart: unless-stopped
     env_file:
@@ -11,11 +11,15 @@ services:
     volumes:
       - database-data:/var/lib/postgresql/data/
   api:
-    image: stephenadam/gcpblog_api:latest
+    image: dimar24/psuhistory.api:latest
     environment:
       ASPNETCORE_URLS: "http://+:6700"
     depends_on:
       - database
+  web:
+    image: dimar24/psuhistory.web:latest
+    depends_on:
+      - api
   certbot:
     image: certbot/certbot
     restart: unless-stopped
@@ -23,6 +27,7 @@ services:
       - ./data/certbot/conf:/etc/letsencrypt
       - ./data/certbot/www:/var/www/certbot
     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+    command: 'sudo certbot certificates'
   nginx:
     image: nginx:1.21.0
     restart: unless-stopped
@@ -35,6 +40,6 @@ services:
       - "443:443"
     command: '/bin/sh -c ''while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g "daemon off;"'''
     depends_on:
-      - api
+      - web
 volumes:
   database-data:
